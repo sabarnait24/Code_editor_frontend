@@ -38,14 +38,14 @@ function Body() {
 
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="Enter Link"
             className="input input-bordered w-full max-w-xs my-1 bg-slate-200 text-black"
             onChange={(e) => setId(e.target.value)}
             value={Id}
           />
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="Enter Username"
             className="input input-bordered w-full max-w-xs my-1 bg-slate-200 text-black"
             onChange={(e) => setUsername(e.target.value)}
             value={Username}
