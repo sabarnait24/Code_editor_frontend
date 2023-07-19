@@ -8,10 +8,10 @@ import { useParams } from "react-router-dom";
 
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+// const socket = io("http://localhost:5000");
 
 
-// const socket=io("https://code-editor-api-l6iv.onrender.com");
+const socket=io("https://code-editor-server-z176.onrender.com");
 function Compiler() {
   
 const params=useParams();
@@ -33,7 +33,7 @@ console.log(params);
       input: inputValue,
     };
     console.log(odata);
-    await fetch("http://localhost:5000/compile", {
+    await fetch("https://code-editor-server-z176.onrender.com/compile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
