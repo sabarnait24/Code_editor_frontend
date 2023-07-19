@@ -15,14 +15,14 @@ const socket=io("https://code-editor-server-z176.onrender.com");
 function Compiler() {
   
 const params=useParams();
-console.log(params);
+// console.log(params);
   const [data, setData] = useState("");
  const [outputValue, setOutputValue] = useState('');
   const [inputValue, setInputValue] = useState('');
   const roomID = params.Id;
   const username=params.username;
 
-  console.log(roomID);
+  // console.log(roomID);
 
   const onSubmit = async () => {
     var e = document.getElementById("langselect");
@@ -32,7 +32,7 @@ console.log(params);
       lang: lang,
       input: inputValue,
     };
-    console.log(odata);
+    // console.log(odata);
     await fetch("https://code-editor-server-z176.onrender.com/compile", {
       method: "POST",
       headers: {
@@ -41,7 +41,7 @@ console.log(params);
       body: JSON.stringify(odata),
     })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         return result.json();
       })
       .then((getdata) => {
@@ -57,7 +57,7 @@ console.log(params);
   })
 
   const handleCodeChange = (value) => {
-    console.log("hehe",value);
+    // console.log("hehe",value);
     setData(value);
     socket.emit('codeChange', {
       roomID,
