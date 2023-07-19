@@ -99,7 +99,7 @@ console.log(params);
   });
 
   socket.on("codeChangeListen",(data)=>{
-    console.log(data);
+    // console.log(data);
     if(roomID!==data.roomID){
       return;
     }
