@@ -20,6 +20,7 @@
     "@uiw/codemirror-theme-abcdef": "^4.19.7",
     "@uiw/codemirror-themes": "^4.19.7",
     "@uiw/react-codemirror": "^4.19.7",
+    "@uiw/react-textarea-code-editor": "^2.1.7",
     "ace-builds": "^1.23.4",
     "daisyui": "^2.50.0",
     "primeicons": "^6.0.1",

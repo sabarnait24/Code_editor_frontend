@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 import logo from "../icons8-play-67.png";
 import SocketClient from "./SocketClient";
@@ -177,14 +178,35 @@ function Compiler() {
         </div> */}
 
         <div className="relative flex h-3/5">
-          <textarea
-            className="absolute inset-0 resize-none bg-black p-2 font-mono text-white caret-white outline-none h-full"
+          {/* <textarea
+            className="absolute inset-0 resize-none bg-transparent p-2 font-mono text-transparent caret-white outline-none"
             value={data}
             onChange={handleCodeChange}
           />
-          <SyntaxHighlighter language="javascript" style={atomDark}>
+          <SyntaxHighlighter
+            language="javascript"
+            style={atomDark}
+            customStyle={{
+              flex: "1",
+              background: "transparent",
+            }}
+          >
             {data}
-          </SyntaxHighlighter>
+          </SyntaxHighlighter> */}
+          <CodeEditor
+            value={data}
+            language="js"
+            placeholder="Please enter JS code."
+            onChange={handleCodeChange}
+            padding={15}
+            className="w-full inset-0 resize-none p-2 "
+            style={{
+              fontSize: 16,
+              backgroundColor: "#f5f5f5",
+              fontFamily:
+                "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+            }}
+          />
         </div>
 
         <div className="grid grid-cols-2 items-end ">
