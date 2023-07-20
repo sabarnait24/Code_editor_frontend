@@ -6,32 +6,28 @@ import SocketClient from "./SocketClient";
 import { useParams } from "react-router-dom";
 
 import { io } from "socket.io-client";
-// import AceEditor from 'react-ace';
-// import { InputTextarea } from "primereact/inputtextarea";
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
-// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-// import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-// import { light } from "@mui/material/styles/createPalette";
-
-// import 'ace-builds/src-noconflict/mode-javascript';
-// import 'ace-builds/src-noconflict/theme-monokai';
-
-// const socket = io("http://localhost:5000");
 
 const socket = io("https://code-editor-server-z176.onrender.com");
 function Compiler() {
   const params = useParams();
-  // console.log(params);
+
   const [data, setData] = useState("");
   const [outputValue, setOutputValue] = useState("");
   const [inputValue, setInputValue] = useState("");
-  // // const [isEditorUpdateInProgress, setIsEditorUpdateInProgress] =
-  //   useState(false);
+  const [lang, setLang] = useState("c");
+
   const roomID = params.Id;
   const username = params.username;
 
-  // console.log(roomID);
+  const selectElement = document.getElementById("langselect");
+
+  if (selectElement) {
+    selectElement.addEventListener("change", () => {
+      if (selectElement.value === "cpp17") setLang("Cpp");
+      else if (selectElement.value === "python3") setLang("Python");
+      else setLang(selectElement.value);
+    });
+  }
 
   const onSubmit = async () => {
     var e = document.getElementById("langselect");
@@ -167,42 +163,17 @@ function Compiler() {
           </div>
         </div>
 
-        {/* <div className="h-3/5">
-          <textarea
-            className="textarea textarea-bordered bg-black w-full h-full text-white text-lg font-extrabold "
-            value={data}
-           
-          />
-
-          
-        </div> */}
-
         <div className="relative flex h-3/5">
-          {/* <textarea
-            className="absolute inset-0 resize-none bg-transparent p-2 font-mono text-transparent caret-white outline-none"
-            value={data}
-            onChange={handleCodeChange}
-          />
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{
-              flex: "1",
-              background: "transparent",
-            }}
-          >
-            {data}
-          </SyntaxHighlighter> */}
           <CodeEditor
             value={data}
-            language="js"
-            placeholder="Please enter JS code."
+            language={lang}
+            placeholder="write code here"
             onChange={handleCodeChange}
             padding={15}
             className="w-full inset-0 resize-none p-2 "
             style={{
               fontSize: 16,
-              backgroundColor: "#f5f5f5",
+              backgroundColor: "dark",
               fontFamily:
                 "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
             }}

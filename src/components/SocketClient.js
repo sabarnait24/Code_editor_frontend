@@ -1,11 +1,8 @@
-// import { Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-// import { io } from "socket.io-client";
-import AvatarUser from "./AvatarUser";
 
-// const socket = io("http://localhost:5000");
+import AvatarUser from "./AvatarUser";
 
 function SocketClient(props) {
   const socket = props.socket;
@@ -31,8 +28,8 @@ function SocketClient(props) {
   const roomID = props.roomID;
   const username = props.username;
   socket.on("get-joined-members", ({ joinedusername, MembersDetails }) => {
-    console.log(MembersDetails);
-    console.log("joined username", joinedusername);
+    // console.log(MembersDetails);
+    // console.log("joined username", joinedusername);
 
     MembersDetails.map((member) =>
       member.username !== joinedusername
@@ -50,9 +47,9 @@ function SocketClient(props) {
   });
 
   socket.on("user-disconnected", (data) => {
-    console.log("disconnect", data);
+    // console.log("disconnect", data);
     if (data.roomID !== roomID) return;
-    console.log("name", data.username);
+    // console.log("name", data.username);
     toast.error(`${data.username} disconnected`, {
       toastId: "error1",
     });
