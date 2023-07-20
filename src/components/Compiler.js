@@ -1,26 +1,34 @@
 import React, { useState } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 
 import logo from "../icons8-play-67.png";
 import SocketClient from "./SocketClient";
 import { useParams } from "react-router-dom";
 
 import { io } from "socket.io-client";
+// import AceEditor from 'react-ace';
+// import { InputTextarea } from "primereact/inputtextarea";
+import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+// import { light } from "@mui/material/styles/createPalette";
+
+// import 'ace-builds/src-noconflict/mode-javascript';
+// import 'ace-builds/src-noconflict/theme-monokai';
 
 // const socket = io("http://localhost:5000");
 
-
-const socket=io("https://code-editor-server-z176.onrender.com");
+const socket = io("https://code-editor-server-z176.onrender.com");
 function Compiler() {
-  
-const params=useParams();
-// console.log(params);
+  const params = useParams();
+  // console.log(params);
   const [data, setData] = useState("");
- const [outputValue, setOutputValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const [outputValue, setOutputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  // // const [isEditorUpdateInProgress, setIsEditorUpdateInProgress] =
+  //   useState(false);
   const roomID = params.Id;
-  const username=params.username;
+  const username = params.username;
 
   // console.log(roomID);
 
@@ -51,17 +59,18 @@ const params=useParams();
         console.log(err);
       });
   };
-  socket.on("codechangeListen",(data) =>{
-    setData(data);
 
-  })
-
-  const handleCodeChange = (value) => {
+  const handleCodeChange = (e) => {
     // console.log("hehe",value);
+
+    // if (isEditorUpdateInProgress) {
+    //   return;
+    // }
+    const value = e.target.value;
     setData(value);
-    socket.emit('codeChange', {
+    socket.emit("codeChange", {
       roomID,
-      value
+      value,
     });
   };
 
@@ -70,46 +79,49 @@ const params=useParams();
     setInputValue(newValue);
     socket.emit("inputChange", {
       roomID,
-      newValue
+      newValue,
     });
   };
   const handleOutputChange = (output) => {
     setOutputValue(output);
-    socket.emit('outputChange', {
+    socket.emit("outputChange", {
       roomID,
-      output
+      output,
     });
   };
 
-  
-
   socket.on("inputChangeListen", (data) => {
-    if(roomID!==data.roomID){
+    if (roomID !== data.roomID) {
       return;
     }
     setInputValue(data.newValue);
   });
 
-  socket.on('outputChangeListen', (data) => {
-    if(roomID!==data.roomID){
+  socket.on("outputChangeListen", (data) => {
+    if (roomID !== data.roomID) {
       return;
     }
-  
+
     setOutputValue(data.output);
   });
 
-  socket.on("codeChangeListen",(data)=>{
-    // console.log(data);
-    if(roomID!==data.roomID){
+  socket.on("codeChangeListen", (data) => {
+    if (roomID !== data.roomID) {
       return;
     }
+
     setData(data.value);
-  })
+  });
 
   return (
     <div className="grid grid-cols-10 divide-x ">
       <div className="col-span-2 bg-slate-50">
-        <SocketClient  roomID={roomID}  username={username}  data={data} socket={socket}></SocketClient>
+        <SocketClient
+          roomID={roomID}
+          username={username}
+          data={data}
+          socket={socket}
+        ></SocketClient>
       </div>
       <div className=" min-h-screen bg-slate-50 col-span-7">
         <h2
@@ -154,15 +166,25 @@ const params=useParams();
           </div>
         </div>
 
-        <div>
-          <CodeMirror
-            className="text-lg font-bold"
+        {/* <div className="h-3/5">
+          <textarea
+            className="textarea textarea-bordered bg-black w-full h-full text-white text-lg font-extrabold "
             value={data}
-            height="70vh"
-            theme="dark"
-            extensions={[javascript({ jsx: true })]}
+           
+          />
+
+          
+        </div> */}
+
+        <div className="relative flex h-3/5">
+          <textarea
+            className="absolute inset-0 resize-none bg-black p-2 font-mono text-white caret-white outline-none h-full"
+            value={data}
             onChange={handleCodeChange}
           />
+          <SyntaxHighlighter language="javascript" style={atomDark}>
+            {data}
+          </SyntaxHighlighter>
         </div>
 
         <div className="grid grid-cols-2 items-end ">
@@ -172,7 +194,8 @@ const params=useParams();
             </p>
             <textarea
               className="textarea textarea-bordered bg-black w-full h-56 text-white text-lg font-extrabold"
-               value={inputValue} onChange={handleInputChange}
+              value={inputValue}
+              onChange={handleInputChange}
             />
           </div>
           <div className="pl-2 my-1">
